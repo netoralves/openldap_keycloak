@@ -1,0 +1,28 @@
+#!/bin/bash -e
+# AUTHOR: FRANCISCO NETO
+# EMAIL: netoralves@gmail.com
+
+# VARIAVEIS DO OPENLDAP - CONTAINER
+OPENLDAP_ROOT_PASSWORD="admin"
+OPENLDAP_ROOT_DN_PREFIX="admin"
+OPENLDAP_ROOT_DN_SUFFIX="example.com.br"
+OPENLDAP_DEBUG_LEVEL="256"
+OPENLDAP_CONTAINER_NAME="ldap"
+OPENLDAP_CONTAINER_HOSTNAME="ldap.example.com.br"
+SRC_PORT1="389"
+DST_PORT1="389"
+SRC_PORT2="636"
+DST_PORT2="636"
+VERSION_C_OPENLDAP="1.0"
+
+# BUILDING IMAGES
+docker build ../openldap/ -t netoralves/openldap:${VERSION_C_OPENLDAP}
+
+# PROVISIONING LDAP CONTAINER
+docker run -e OPENLDAP_ROOT_PASSWORD="${OPENLDAP_ROOT_PASSWORD}" -e OPENLDAP_ROOT_DN_PREFIX="${OPENLDAP_ROOT_DN_PREFIX}" -e OPENLDAP_DEBUG_LEVEL="${OPENLDAP_DEBUG_LEVEL}" -e OPENLDAP_ROOT_DN_SUFFIX="${OPENLDAP_ROOT_DN_SUFFIX}" -d --name "${OPENLDAP_CONTAINER_NAME}" --hostname "${OPENLDAP_CONTAINER_HOSTNAME}" -p $SRC_PORT1:$DST_PORT1 -p $SRC_PORT2:$DST_PORT2 netoralves/openldap:$VERSION_C_OPENLDAP
+
+echo "[Docker] - Aguardando provisionamento do container"
+sleep 1
+echo "[Docker] - Confiurando OpenLDAP - $OPENLDAP_ROOT_DN_SUFFIX"
+# POPULATE OPENLDAP
+docker exec -t -i $(docker inspect $OPENLDAP_CONTAINER_NAME | grep Id | cut -f4 -d'"') /usr/local/bin/populate_base.sh
