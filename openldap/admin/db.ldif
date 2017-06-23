@@ -1,0 +1,16 @@
+# Generate db.ldif
+#/usr/local/etc/openldap/admin/db.ldif
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcSuffix
+olcSuffix: dc=DOM1,dc=DOM2,dc=DOM3
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootDN
+olcRootDN: cn=OPENLDAP_ROOT_DN_PREFIX,dc=DOM1,dc=DOM2,dc=DOM3
+
+dn: olcDatabase={2}hdb,cn=config
+changetype: modify
+replace: olcRootPW
+olcRootPW: OPENLDAP_ROOT_PASSWORD_HASH

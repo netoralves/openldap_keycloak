@@ -1,0 +1,19 @@
+dn: dc=DOM1,dc=DOM2,dc=DOM3
+objectClass: top
+objectClass: dcObject
+objectclass: organization
+o: DOM1 DOM2 DOM3
+dc: DOM1
+
+dn: cn=OPENLDAP_ROOT_DN_PREFIX,dc=DOM1,dc=DOM2,dc=DOM3
+objectClass: organizationalRole
+cn: OPENLDAP_ROOT_DN_PREFIX
+description: Directory Manager
+
+dn: ou=People,dc=DOM1,dc=DOM2,dc=DOM3
+objectClass: organizationalUnit
+ou: People
+
+dn: ou=Group,dc=DOM1,dc=DOM2,dc=DOM3
+objectClass: organizationalUnit
+ou: Group
